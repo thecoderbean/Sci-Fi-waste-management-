@@ -1,0 +1,15 @@
+{%extends 'nav.html'%}  
+{%block content%}
+<form action="{% url 'add' %}" method="post">
+    {%csrf_token%}
+    <label for="sid">Student ID</label><br>
+    <input type="text" id="fname" name="sid"><br>
+
+    <label for="sname">Student name:</label><br>
+    <input type="text" id="sname" name="sname"><br>
+
+    <label for="scontact">Student Contact:</label><br>
+    <input type="text" id="scontact" name="scontact"><br>
+    <button type="submit">Submit</button>
+  </form>
+{%endblock%}

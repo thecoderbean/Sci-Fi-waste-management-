@@ -1,0 +1,535 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Walle</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="{% static 'homeassets/favicon.ico' %}" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'homecss/styles.css' %}" rel="stylesheet" />
+    </head>
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand" href="#page-top">{{ user_data.email }}</a>
+                <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="{% url 'home' %}">Home</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="{% url 'account' %}">Account</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="{% url 'logout_user' %}">LogOut</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Masthead-->
+        <header class="masthead bg-primary text-white text-center">
+            <div class="container d-flex align-items-center flex-column">
+                <!-- Masthead Avatar Image-->
+                <form method="post" enctype="multipart/form-data" action="{% url 'pic_upload' %}">
+                    {% csrf_token %}
+                    {{ form.img }}
+                    <!-- Input field for changing profile picture -->
+                    <div class="mb-3">
+                        <!-- Display current profile picture -->
+                        {% if user_data.img %}
+                        <!-- Display current profile picture -->
+                        <img src="{{ user_data.img.url }}" alt="Profile Picture"  style="border-radius: 50%; width: 300px; height: 300px; object-fit: cover;">
+
+                        {% else %}
+                            <!-- Provide a default image or alternative content if the user doesn't have an image -->
+                            <img class="img-fluid" src="{% static "homeassets\img\avataaars.svg" %}" style="width: 300px;" alt="Profile Picture" />
+                        {% endif %}
+                    </div>
+                
+                    <!-- Submit button to upload the new profile picture -->
+                    <div class="mb-3 d-flex align-items-center">
+                        <input type="file" name="img" class="form-control me-3" id="id_upload" required>
+                        <button type="submit" class="btn btn-warning me-3">Change</button>
+                    </div>
+                </form>
+                
+
+                
+                <!-- Masthead Heading-->
+                <h1 class="masthead-heading text-uppercase mb-0">Welcome, {{ request.session.username }}</h1>
+                
+                <!-- Icon Divider-->
+                <div class="divider-custom divider-light">
+                    <div class="divider-custom-line"></div>
+                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                    <div class="divider-custom-line"></div>
+                </div>
+                
+                <!-- Masthead Subheading-->
+                <p class="masthead-subheading font-weight-light mb-0"><p>{{ user_data.address }}{{ user_data.pincode }} <br>Phone Number: {{ user_data.number }}</p>
+            </div>
+            
+            
+        </header>
+        <!-- Portfolio Section-->
+        <section class="page-section portfolio" id="portfolio">
+            <div class="container">
+                <!-- Portfolio Section Heading-->
+                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Select services</h2>
+                <!-- Icon Divider-->
+                <div class="divider-custom">
+                    <div class="divider-custom-line"></div>
+                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                    <div class="divider-custom-line"></div>
+                </div>
+                <!-- Portfolio Grid Items-->
+                <div class="row justify-content-center">
+                    <!-- Portfolio Item 1-->
+                    <div class="col-md-6 col-lg-4 mb-5">
+                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal1">
+                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                                <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                            </div>
+                            <img class="img-fluid" src="{% static 'img/service-1.jpg'%}" alt="..." />
+                        </div>
+                    </div>
+                    <!-- Portfolio Item 2-->
+                    <div class="col-md-6 col-lg-4 mb-5">
+                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal2">
+                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                                <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                            </div>
+                            <img class="img-fluid" src="{% static 'img/service-2.jpg'%}" alt="..." />
+                        </div>
+                    </div>
+                    <!-- Portfolio Item 3-->
+                    <div class="col-md-6 col-lg-4 mb-5">
+                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal3">
+                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                                <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                            </div>
+                            <img class="img-fluid" src="{% static 'img/service-3.jpg'%}" alt="..." />
+                        </div>
+                    </div>
+                    <!-- Portfolio Item 4-->
+                    <div class="col-md-6 col-lg-4 mb-5 mb-lg-0">
+                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal4">
+                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                                <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                            </div>
+                            <img class="img-fluid" src="{% static 'img/service-4.jpg'%}" alt="..." />
+                        </div>
+                    </div>
+                    <!-- Portfolio Item 5-->
+                    <div class="col-md-6 col-lg-4 mb-5 mb-md-0">
+                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal5">
+                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                                <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                            </div>
+                            <img class="img-fluid" src="{% static 'img/service-6.jpg'%}" alt="..." />
+                        </div>
+                    </div>
+                    <!-- Portfolio Item 6-->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal6">
+                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                                <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                            </div>
+                            <img class="img-fluid" src="{% static 'img/service-7.jpg'%}" alt="..." />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Contact Section-->
+        <section class="page-section" id="contact">
+            <div class="container">
+             <!-- Enhanced Dynamic Billing Section with Bootstrap -->
+<div id="dynamic-billing" class="container">
+    <h3>Invoice</h3>
+    <div id="billing-table-container">
+        <table id="billing-table" class="table">
+            <thead>
+                <tr>
+                    <th>Service</th>
+                    <th>Cost (Monthly)</th>
+                </tr>
+            </thead>
+            <tbody id="billing-list"></tbody>
+        </table>
+    </div>
+    <div id="billing-summary" class="row justify-content-end">
+        <div class="col-md-6"> <!-- Adjust the column size based on your layout -->
+            <hr>
+            <div class="summary-item">
+                <p>Subtotal:</p>
+                <span id="subtotal-cost">0</span>
+            </div>
+            <div class="summary-item">
+                <p>Total:</p>
+                <span id="total-cost">0</span>
+            </div>
+        </div>
+        </div>
+            <button class="btn btn-success" id="add-to-cart">Add to Cart</button>   
+    </div>
+            </div>
+        </section>
+        <!-- About Section-->
+        <section class="page-section bg-primary text-white mb-0" id="about">
+            <div class="container">
+                <!-- About Section Heading-->
+                <h2 class="page-section-heading text-center text-uppercase text-white">Opps</h2>
+                <!-- Icon Divider-->
+                <div class="divider-custom divider-light">
+                    <div class="divider-custom-line"></div>
+                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                    <div class="divider-custom-line"></div>
+                </div>
+                <!-- About Section Content-->
+                <div class="row">
+                    <div class="col-lg-4 ms-auto"><p class="lead"></p></div>
+                    <div class="col-lg-4 me-auto"><p class="lead"></p></div>
+                </div>
+                <!-- About Section Button-->
+                <div class="text-center mt-4">
+                    <a class="btn btn-xl btn-outline-light" href="#">
+                        <i class="fas fa-download me-2"></i>
+                        Download Bill!
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer-->
+        <footer class="footer text-center">
+            <div class="container">
+                <div class="row">
+                    <!-- Footer Location-->
+                    <div class="col-lg-4 mb-5 mb-lg-0">
+                        <h4 class="text-uppercase mb-4">Location</h4>
+                        <p class="lead mb-0">
+                            Adress
+                            <br />
+                            CEO Bestin SJ
+                        </p>
+                    </div>
+                    <!-- Footer Social Icons-->
+                    <div class="col-lg-4 mb-5 mb-lg-0">
+                        <h4 class="text-uppercase mb-4">Around the Web</h4>
+                        <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-facebook-f"></i></a>
+                        <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-twitter"></i></a>
+                        <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-linkedin-in"></i></a>
+                        <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-dribbble"></i></a>
+                    </div>
+                    <!-- Footer About Text-->
+                    <div class="col-lg-4">
+                        <h4 class="text-uppercase mb-4">About</h4>
+                        <p class="lead mb-0">
+                            
+                            Bestin S J - Student - CHMM College For Advanced
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Copyright Section-->
+        <div class="copyright py-4 text-center text-white">
+            <div class="container"><small>Copyright &copy; bestin_s_jorly</small></div>
+        </div>
+        <!-- Portfolio Modals-->
+        <!-- Portfolio Modal 1-->
+        <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" aria-labelledby="portfolioModal1" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
+                    <div class="modal-body text-center pb-5">
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8">
+                                    <!-- Portfolio Modal - Title-->
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">AeroBot Transport</h2>
+                                    <!-- Icon Divider-->
+                                    <div class="divider-custom">
+                                        <div class="divider-custom-line"></div>
+                                        <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                                        <div class="divider-custom-line"></div>
+                                    </div>
+                                    <!-- Portfolio Modal - Image-->
+                                    <img class="img-fluid rounded mb-5" src="{% static 'img/service-1.jpg'%}" alt="..." />
+                                    <!-- Portfolio Modal - Text-->
+                                    <p class="mb-4">Embark on a revolutionary journey with AeroBots, where cutting-edge technology meets seamless, eco-friendly interstellar air freight. Our airborne robotic fleet is not just a service – it's an experience crafted for those residing in the remotest corners of our planet.For just 5000 rupees a month</p>
+                                    <button class="btn btn-primary add-to-bill" data-service="AeroBot Transport:5000">
+                                        Add to Bill
+                                    </button>
+                                    <button class="btn btn-warning" data-bs-dismiss="modal">
+                                        <i class="fas fa-xmark fa-fw"></i>
+                                        Close Window
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Portfolio Modal 2-->
+        <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" aria-labelledby="portfolioModal2" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
+                    <div class="modal-body text-center pb-5">
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8">
+                                    <!-- Portfolio Modal - Title-->
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Ocean Nebula Cargo</h2>
+                                    <!-- Icon Divider-->
+                                    <div class="divider-custom">
+                                        <div class="divider-custom-line"></div>
+                                        <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                                        <div class="divider-custom-line"></div>
+                                    </div>
+                                    <!-- Portfolio Modal - Image-->
+                                    <img class="img-fluid rounded mb-5" src="{% static 'img/service-2.jpg'%}" alt="..." />
+                                    <!-- Portfolio Modal - Text-->
+                                    <p class="mb-4">Embark with Ocean Nebula Cargo – inspired by Wall-E. Discover eco-conscious ocean freight solutions designed for island residents and coastal hotels. Just 10,000 rupees a month for a cleaner, sustainable ocean.
+                                    </p>
+                                    <button class="btn btn-primary add-to-bill" data-service="Ocean Nebula Cargo:10000">
+                                        Add to Bill
+                                    </button>
+                                    <button class="btn btn-warning" data-bs-dismiss="modal">
+                                        <i class="fas fa-xmark fa-fw"></i>
+                                        Close Window
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Portfolio Modal 3-->
+        <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" aria-labelledby="portfolioModal3" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
+                    <div class="modal-body text-center pb-5">
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8">
+                                    <!-- Portfolio Modal - Title-->
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Interstellar Roadways</h2>
+                                    <!-- Icon Divider-->
+                                    <div class="divider-custom">
+                                        <div class="divider-custom-line"></div>
+                                        <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                                        <div class="divider-custom-line"></div>
+                                    </div>
+                                    <!-- Portfolio Modal - Image-->
+                                    <img class="img-fluid rounded mb-5" src="{% static 'img/service-3.jpg'%}" alt="..." />
+                                    <!-- Portfolio Modal - Text-->
+                                    <p class="mb-4">Revolutionize transportation with Interstellar Roadways. Immerse yourself in futuristic road freight inspired by Wall-E's vision of efficient waste collection. Only 500 rupees a month for a groundbreaking subscription.</p>
+                                    <button class="btn btn-primary add-to-bill" data-service="Interstellar Roadways:500">
+                                        Add to Bill
+                                    </button>
+                                    <button class="btn btn-warning" data-bs-dismiss="modal">
+                                        <i class="fas fa-xmark fa-fw"></i>
+                                        Close Window
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Portfolio Modal 4-->
+        <div class="portfolio-modal modal fade" id="portfolioModal4" tabindex="-1" aria-labelledby="portfolioModal4" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
+                    <div class="modal-body text-center pb-5">
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8">
+                                    <!-- Portfolio Modal - Title-->
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Galactic Rail Express</h2>
+                                    <!-- Icon Divider-->
+                                    <div class="divider-custom">
+                                        <div class="divider-custom-line"></div>
+                                        <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                                        <div class="divider-custom-line"></div>
+                                    </div>
+                                    <!-- Portfolio Modal - Image-->
+                                    <img class="img-fluid rounded mb-5" src="{% static 'img/service-4.jpg'%}" alt="..." />
+                                    <!-- Portfolio Modal - Text-->
+                                    <p class="mb-4">Embark on a journey with our Galactic Rail Express, a cutting-edge train freight service inspired by Wall-E's commitment to sustainability and efficiency. Tailored for MNC waste management, subscribe today for a monthly fee of 20,000 rupees and revolutionize your approach to sustainable waste solutions.</p>
+                                    <button class="btn btn-primary add-to-bill" data-service="Galactic Rail Express:20000">
+                                        Add to Bill
+                                    </button>
+                                    <button class="btn btn-warning" data-bs-dismiss="modal">
+                                        <i class="fas fa-xmark fa-fw"></i>
+                                        Close Window
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Portfolio Modal 5-->
+        <div class="portfolio-modal modal fade" id="portfolioModal5" tabindex="-1" aria-labelledby="portfolioModal5" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
+                    <div class="modal-body text-center pb-5">
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8">
+                                    <!-- Portfolio Modal - Title-->
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Military Exosuits</h2>
+                                    <!-- Icon Divider-->
+                                    <div class="divider-custom">
+                                        <div class="divider-custom-line"></div>
+                                        <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                                        <div class="divider-custom-line"></div>
+                                    </div>
+                                    <!-- Portfolio Modal - Image-->
+                                    <img class="img-fluid rounded mb-5" src="{% static 'img/service-6.jpg'%}" alt="..." />
+                                    <!-- Portfolio Modal - Text-->
+                                    <p class="mb-4">Embark on a journey with cutting-edge Military Exosuits, drawing inspiration from Wall-E's precision and advanced technology in personal protection. Experience unparalleled strength and protection designed exclusively for VVIPs. Elevate security to new heights for just 1,00,000 monthly. Your safety, our priority.</p>
+                                    <button class="btn btn-primary add-to-bill" data-service="Military Exosuits:100000">
+                                        Add to Bill
+                                    </button>
+                                    <button class="btn btn-warning" data-bs-dismiss="modal">
+                                        <i class="fas fa-xmark fa-fw"></i>
+                                        Close Window
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Portfolio Modal 6-->
+        <div class="portfolio-modal modal fade" id="portfolioModal6" tabindex="-1" aria-labelledby="portfolioModal6" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
+                    <div class="modal-body text-center pb-5">
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8">
+                                    <!-- Portfolio Modal - Title-->
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Quantum Warehouse Solutions</h2>
+                                    <!-- Icon Divider-->
+                                    <div class="divider-custom">
+                                        <div class="divider-custom-line"></div>
+                                        <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                                        <div class="divider-custom-line"></div>
+                                    </div>
+                                    <!-- Portfolio Modal - Image-->
+                                    <img class="img-fluid rounded mb-5" src="{% static 'img/service-7.jpg'%}" alt="..." />
+                                    <!-- Portfolio Modal - Text-->
+                                    <p class="mb-4">Revolutionize your logistics with Quantum Warehouse Solutions, where advanced technology meets sustainability for a futuristic storage experience. Our quantum realm compression technology allows storing mega tons in a cubic cm. Exclusive command services available for MNCs starting at 10,00,000 rupees for the basic plan. Monthly fees may vary based on stored weight. Elevate your storage capabilities to the quantum level.</p>
+                                    <button class="btn btn-primary add-to-bill" data-service="Quantum Warehouse Solutions:1000000">
+                                        Add to Bill
+                                    </button>
+                                    <button class="btn btn-warning" data-bs-dismiss="modal">
+                                        <i class="fas fa-xmark fa-fw"></i>
+                                        Close Window
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="{% static 'homejs/scripts.js'%}"></script>
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <!-- * *                               SB Forms JS                               * *-->
+        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Initialize variables
+                let billingList = [];
+                let totalCost = 0;
+        
+                // Function to update the dynamic billing
+                function updateBilling() {
+                    const billingListElement = document.getElementById('billing-list');
+                    const totalCostElement = document.getElementById('total-cost');
+        
+                    // Clear previous content
+                    billingListElement.innerHTML = '';
+        
+                    // Populate the billing list
+                    billingList.forEach(item => {
+                        const [service, cost] = item.split(':');
+                        const li = document.createElement('li');
+                        li.textContent = `${service} - ${cost} rupees`;
+                        billingListElement.appendChild(li);
+                    });
+        
+                    // Update the total cost
+                    totalCostElement.textContent = totalCost;
+                }
+        
+                // Function to handle the "Add to Cart" button click
+                function addToCart() {
+                    // Implement the logic to add the selected services to the cart or perform any other action
+                    console.log('Services added to cart:', billingList);
+                    console.log('Total cost:', totalCost);
+        
+                    // You can add additional logic here, like sending data to the server or redirecting to a cart page.
+                }
+        
+                // Add click event listeners to all "Add to Bill" buttons
+                const addToBillButtons = document.querySelectorAll('.add-to-bill');
+                addToBillButtons.forEach(button => {
+                    button.addEventListener('click', function () {
+                        const data = this.getAttribute('data-service');
+                        const [service, cost] = data.split(':');
+        
+                        // Toggle service in the billing list
+                        const item = `${service}:${cost}`;
+                        if (billingList.includes(item)) {
+                            const index = billingList.indexOf(item);
+                            billingList.splice(index, 1);
+                            totalCost -= parseInt(cost, 10);
+                        } else {
+                            billingList.push(item);
+                            totalCost += parseInt(cost, 10);
+                        }
+        
+                        // Update the dynamic billing
+                        updateBilling();
+                    });
+                });
+        
+                // Add click event listener to the "Add to Cart" button
+                const addToCartButton = document.getElementById('add-to-cart');
+                addToCartButton.addEventListener('click', addToCart);
+            });
+        </script>
+        
+    </body>
+</html>
